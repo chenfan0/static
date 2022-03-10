@@ -1,23 +1,18 @@
+const Koa = require("koa");
+const koaStatic = require("./index");
 
-'use strict'
+const app = new Koa();
 
-const serve = require('./')
-const Koa = require('koa')
-const app = new Koa()
-
-// $ GET /package.json
-// $ GET /
-
-app.use(serve('.'))
-
-app.use((ctx, next) => {
-  return next().then(() => {
-    if (ctx.path === '/') {
-      ctx.body = 'Try `GET /package.json`'
-    }
+app.use(
+  koaStatic("./build/", {
+    history: true,
+    compress: true,
+    maxage: {
+      js: 10000,
+    },
   })
-})
+);
 
-app.listen(3000)
-
-console.log('listening on port 3000')
+app.listen(8080, () => {
+  console.log("server in 8080");
+});

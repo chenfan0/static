@@ -1,14 +1,15 @@
 {
-  "name": "koa-static",
+  "name": "koa-static-history",
   "description": "Static file serving middleware for koa",
-  "repository": "koajs/static",
-  "version": "5.0.0",
+  "repository": "https://github.com/chenfan0/static",
+  "version": "1.0.2",
   "keywords": [
     "koa",
     "middleware",
     "file",
     "static",
-    "sendfile"
+    "sendfile",
+    "koa-static"
   ],
   "files": [
     "index.js"
@@ -28,7 +29,8 @@
   "license": "MIT",
   "dependencies": {
     "debug": "^3.1.0",
-    "koa-send": "^5.0.0"
+    "koa-history-api-fallback": "^1.0.0",
+    "koa-sents": "^1.0.3"
   },
   "scripts": {
     "lint": "eslint --fix .",

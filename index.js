@@ -1,20 +1,20 @@
-
-'use strict'
+"use strict";
 
 /**
  * Module dependencies.
  */
 
-const debug = require('debug')('koa-static')
-const { resolve } = require('path')
-const assert = require('assert')
-const send = require('koa-send')
+const debug = require("debug")("koa-static");
+const { resolve } = require("path");
+const assert = require("assert");
+const sents = require("koa-sents");
+const history = require("koa-history-api-fallback");
 
 /**
  * Expose `serve()`.
  */
 
-module.exports = serve
+module.exports = serve;
 
 /**
  * Serve static files from `root`.
@@ -25,49 +25,57 @@ module.exports = serve
  * @api public
  */
 
-function serve (root, opts) {
-  opts = Object.assign(Object.create(null), opts)
+function serve(root, opts) {
+  opts = Object.assign(Object.create(null), opts);
+  opts.history = opts.history === true ? {} : void 0;
 
-  assert(root, 'root directory is required to serve files')
+  assert(root, "root directory is required to serve files");
 
   // options
-  debug('static "%s" %j', root, opts)
-  opts.root = resolve(root)
-  if (opts.index !== false) opts.index = opts.index || 'index.html'
+  debug('static "%s" %j', root, opts);
+  opts.root = resolve(root);
+  if (opts.index !== false) opts.index = opts.index || "index.html";
 
   if (!opts.defer) {
-    return async function serve (ctx, next) {
-      let done = false
+    return async function serve(ctx, next) {
+      if (opts.history !== undefined) {
+        await history(opts.history)(ctx, next);
+      }
+      let done = false;
 
-      if (ctx.method === 'HEAD' || ctx.method === 'GET') {
+      if (ctx.method === "HEAD" || ctx.method === "GET") {
         try {
-          done = await send(ctx, ctx.path, opts)
+          done = await sents(ctx, ctx.path, opts);
         } catch (err) {
           if (err.status !== 404) {
-            throw err
+            throw err;
           }
         }
       }
 
       if (!done) {
-        await next()
+        await next();
       }
-    }
+    };
   }
 
-  return async function serve (ctx, next) {
-    await next()
+  return async function serve(ctx, next) {
+    if (opts.history !== undefined) {
+      await history(opts.history)(ctx, next);
+    }
+    await next();
 
-    if (ctx.method !== 'HEAD' && ctx.method !== 'GET') return
+    if (ctx.method !== "HEAD" && ctx.method !== "GET") return;
     // response is already handled
-    if (ctx.body != null || ctx.status !== 404) return // eslint-disable-line
+    if (ctx.body != null || ctx.status !== 404) return; // eslint-disable-line
 
     try {
-      await send(ctx, ctx.path, opts)
+      await sents(ctx, ctx.path, opts);
     } catch (err) {
       if (err.status !== 404) {
-        throw err
+        throw err;
       }
     }
-  }
+  };
 }
+

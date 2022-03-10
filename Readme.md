@@ -1,4 +1,6 @@
-# koa-static
+# koa-static-history
+
+## fork by koa-static
 
 [![NPM version][npm-image]][npm-url]
 [![Build status][travis-image]][travis-url]
@@ -7,19 +9,20 @@
 [![License][license-image]][license-url]
 [![Downloads][downloads-image]][downloads-url]
 
- Koa static file serving middleware, wrapper for [`koa-send`](https://github.com/koajs/send).
+ koa-static-history file serving middleware, wrapper for [`koa-sents`](https://github.com/chenfan0/send)
+ [`koa-history-api-fallback`](https://github.com/dalhorinek/koa-history-api-fallback).
 
 ## Installation
 
 ```bash
-$ npm install koa-static
+$ npm install koa-static-history
 ```
 
 ## API
 
 ```js
 import Koa from 'koa'; // CJS: require('koa');
-import serve from 'koa-static'; // CJS: require('koa-static')
+import serve from 'koa-static-history'; // CJS: require('koa-static-history')
 const app = new Koa();
 app.use(serve(root, opts));
 ```
@@ -30,6 +33,7 @@ app.use(serve(root, opts));
 ### Options
 
  - `maxage` Browser cache max-age in milliseconds. defaults to 0
+ - `history` use koa-history-api-fallback to set history mode
  - `hidden` Allow transfer of hidden files. defaults to false
  - `index` Default file name, defaults to 'index.html'
  - `defer` If true, serves after `return next()`, allowing any downstream middleware to respond first.
@@ -41,7 +45,17 @@ app.use(serve(root, opts));
 ## Example
 
 ```js
-const serve = require('koa-static');
+const serve = require('koa-static-history');
+const Koa = require('koa');
+const app = new Koa();
+
+app.use(serve('.'), {
+  history: true, // set history mode
+})
+```
+
+```js
+const serve = require('koa-static-history');
 const Koa = require('koa');
 const app = new Koa();
 
