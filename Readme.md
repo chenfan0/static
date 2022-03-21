@@ -9,8 +9,8 @@
 [![License][license-image]][license-url]
 [![Downloads][downloads-image]][downloads-url]
 
- koa-static-history file serving middleware, wrapper for [`koa-sents`](https://github.com/chenfan0/send)
- [`koa-history-api-fallback`](https://github.com/dalhorinek/koa-history-api-fallback).
+koa-static-history file serving middleware, wrapper for [`koa-sents`](https://github.com/chenfan0/send)
+[`koa-history-api-fallback`](https://github.com/dalhorinek/koa-history-api-fallback).
 
 ## Installation
 
@@ -21,67 +21,69 @@ $ npm install koa-static-history
 ## API
 
 ```js
-import Koa from 'koa'; // CJS: require('koa');
-import serve from 'koa-static-history'; // CJS: require('koa-static-history')
+import Koa from "koa"; // CJS: require('koa');
+import serve from "koa-static-history"; // CJS: require('koa-static-history')
 const app = new Koa();
 app.use(serve(root, opts));
 ```
 
-* `root` root directory string. nothing above this root directory can be served
-* `opts` options object.
+- `root` root directory string. nothing above this root directory can be served
+- `opts` options object.
 
 ### Options
 
- - `maxage` Browser cache max-age in milliseconds. defaults to 0
- - `history` use koa-history-api-fallback to set history mode
- - `hidden` Allow transfer of hidden files. defaults to false
- - `index` Default file name, defaults to 'index.html'
- - `defer` If true, serves after `return next()`, allowing any downstream middleware to respond first.
- - `gzip`  Try to serve the gzipped version of a file automatically when gzip is supported by a client and if the requested file with .gz extension exists. defaults to true.
- - `brotli`  Try to serve the brotli version of a file automatically when brotli is supported by a client and if the requested file with .br extension exists (note, that brotli is only accepted over https). defaults to true.
- - [setHeaders](https://github.com/koajs/send#setheaders) Function to set custom headers on response.
- - `extensions` Try to match extensions from passed array to search for file when no extension is sufficed in URL. First found is served. (defaults to `false`)
+- `maxage` Browser cache max-age in milliseconds. defaults to 0
+- `history` use koa-history-api-fallback to set history mode
+- `hidden` Allow transfer of hidden files. defaults to false
+- `index` Default file name, defaults to 'index.html'
+- `defer` If true, serves after `return next()`, allowing any downstream middleware to respond first.
+- `gzip` Try to serve the gzipped version of a file automatically when gzip is supported by a client and if the requested file with .gz extension exists. defaults to true.
+- `brotli` Try to serve the brotli version of a file automatically when brotli is supported by a client and if the requested file with .br extension exists (note, that brotli is only accepted over https). defaults to true.
+- [setHeaders](https://github.com/koajs/send#setheaders) Function to set custom headers on response.
+- `extensions` Try to match extensions from passed array to search for file when no extension is sufficed in URL. First found is served. (defaults to `false`)
 
 ## Example
 
 ```js
-const serve = require('koa-static-history');
-const Koa = require('koa');
+const serve = require("koa-static-history");
+const Koa = require("koa");
 const app = new Koa();
 
-app.use(serve('.'), {
-  history: true, // set history mode
-})
+app.use(
+  serve(".", {
+    history: true, // set history mode
+  })
+);
 ```
 
 ```js
-const serve = require('koa-static-history');
-const Koa = require('koa');
+const serve = require("koa-static-history");
+const Koa = require("koa");
 const app = new Koa();
 
 // $ GET /package.json
-app.use(serve('.'));
+app.use(serve("."));
 
 // $ GET /hello.txt
-app.use(serve('test/fixtures'));
+app.use(serve("test/fixtures"));
 
 // or use absolute paths
-app.use(serve(__dirname + '/test/fixtures'));
+app.use(serve(__dirname + "/test/fixtures"));
 
 app.listen(3000);
 
-console.log('listening on port 3000');
+console.log("listening on port 3000");
 ```
 
 ### See also
 
- - [koajs/conditional-get](https://github.com/koajs/conditional-get) Conditional GET support for koa
- - [koajs/compress](https://github.com/koajs/compress) Compress middleware for koa
- - [koajs/mount](https://github.com/koajs/mount) Mount `koa-static` to a specific path
+- [koajs/conditional-get](https://github.com/koajs/conditional-get) Conditional GET support for koa
+- [koajs/compress](https://github.com/koajs/compress) Compress middleware for koa
+- [koajs/mount](https://github.com/koajs/mount) Mount `koa-static` to a specific path
 
 ## License
 
-  MIT
+MIT
 
 [npm-image]: https://img.shields.io/npm/v/koa-static.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/koa-static

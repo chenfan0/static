@@ -4,7 +4,7 @@ const koaStatic = require("./index");
 const app = new Koa();
 
 app.use(
-  koaStatic("./build/", {
+  koaStatic("./dist/", {
     history: true,
     compress: true,
     maxage: {
