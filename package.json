@@ -2,7 +2,7 @@
   "name": "koa-static-history",
   "description": "Static file serving middleware for koa",
   "repository": "https://github.com/chenfan0/static",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "keywords": [
     "koa",
     "middleware",

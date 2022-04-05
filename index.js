@@ -39,8 +39,9 @@ function serve(root, opts) {
   if (!opts.defer) {
     return async function serve(ctx, next) {
       if (opts.history !== undefined) {
-        await history(opts.history)(ctx, next);
+        await history(opts.history)(ctx, next)
       }
+      
       let done = false;
 
       if (ctx.method === "HEAD" || ctx.method === "GET") {
@@ -52,18 +53,15 @@ function serve(root, opts) {
           }
         }
       }
-
-      if (!done) {
-        await next();
-      }
     };
   }
 
   return async function serve(ctx, next) {
     if (opts.history !== undefined) {
       await history(opts.history)(ctx, next);
+    } else {
+      await next();
     }
-    await next();
 
     if (ctx.method !== "HEAD" && ctx.method !== "GET") return;
     // response is already handled
