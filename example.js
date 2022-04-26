@@ -1,14 +1,14 @@
 const Koa = require("koa");
 const koaStatic = require("./index");
+const history = require("koa-history-api-fallback");
 
 const app = new Koa();
-
+app.use(history());
 app.use(
   koaStatic("./dist/", {
-    history: true,
-    compress: true,
+    // compress: true,
     maxage: {
-      js: 10000,
+      js: 100000,
     },
   })
 );
